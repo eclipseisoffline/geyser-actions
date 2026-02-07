@@ -17,7 +17,7 @@ or
 - uses: GeyserMC/actions/previous-release@master
   with:
     branch: "master" # The branch to get the previous release for (defaults to the current branch)
-	appID: ${{ secrets.RELEASE_APP_ID }} # The ID of the GitHub App to manage the release system
+    appID: ${{ secrets.RELEASE_APP_ID }} # The ID of the GitHub App to manage the release system
     appPrivateKey: ${{ secrets.RELEASE_APP_PK }} # The private key of the GitHub App in PEM format
 ```
 
