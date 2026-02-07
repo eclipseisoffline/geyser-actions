@@ -7,7 +7,10 @@ inputs:
         required: false
     data:
         description: The JSON data of the previous release.
-        required: true
+    appID:
+        description: ID of the GitHub App to manage the release system.
+    appPrivateKey:
+        description: Private key of the GitHub App to manage the release system.
 
 outputs:
     curentRelease:

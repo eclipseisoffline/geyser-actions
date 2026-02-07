@@ -14,5 +14,10 @@
     "scripts": {
         "package": "ncc build index.ts --license licenses.txt",
         "package:watch": "npm run package -- --watch"
-    }
+    },
+	"dependencies": {
+        "@octokit/auth-app": "6.0.1",
+        "@octokit/core": "5.0.1",
+        "@octokit/plugin-rest-endpoint-methods": "10.0.0"
+	}
 }

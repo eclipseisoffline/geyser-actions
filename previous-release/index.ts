@@ -1,16 +1,41 @@
 import * as core from '@actions/core';
+import { authGithubApp } from './src/action/auth';
+import { getRepoData } from './src/action/repo';
+
+type PrevReleaseData = {
+	[branch: string]: {
+		c: string;
+		t: string;
+	}
+}
+
+async function getLivePrevReleaseData() {
+	const baseRepoData = getRepoData(core.getInput('branch'));
+
+	const { octokit, repoData } = await authGithubApp({baseRepoData});
+	const { owner, repo, branch } = repoData;
+
+	// Get the previous release data from the repository variable
+	const variable = 'releaseAction_prevRelease';
+	const varResponse = await octokit.rest.actions.getRepoVariable({ owner, repo, name: variable });
+	const data: PrevReleaseData = JSON.parse(varResponse.data.value);
+
+	return data
+}
 
 async function run(): Promise<void> {
     try {
         const branch = core.getInput('branch') || process.env.GITHUB_REF_NAME!;
-        const data: {
-            [branch: string]: {
-                c: string;
-                t: string;
-            }
-        } | '' = JSON.parse(core.getInput('data') || '{}');
 
-        if (data === '' || !data[branch]) {
+		// Allow legacy users to provide the data directly, but prefer live data if app credentials are provided
+		let data: PrevReleaseData = {};
+		if (core.getInput("appID") && core.getInput("appPrivateKey")) {
+			data = await getLivePrevReleaseData();
+		} else {
+			data = JSON.parse(core.getInput('data') || '{}');
+		}
+
+        if (!data[branch]) {
             core.setOutput('previousRelease', '0');
             core.setOutput('previousCommit', '');
             core.setOutput('curentRelease', '1');
