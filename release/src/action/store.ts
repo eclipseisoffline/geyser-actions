@@ -1,5 +1,5 @@
 import { OctokitApi } from '../types/auth';
-import core from '@actions/core';
+import * as core from '@actions/core';
 import { Inputs } from "../types/inputs";
 import { Repo } from "../types/repo";
 import { isDeepStrictEqual } from 'util';
