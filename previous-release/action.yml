@@ -21,7 +21,7 @@ outputs:
         description: The commit of the previous release.
 
 runs:
-    using: node24
+    using: node20
     main: dist/index.js
 
 branding:
