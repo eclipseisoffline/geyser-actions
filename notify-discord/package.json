@@ -16,7 +16,9 @@
         "package:watch": "npm run package -- --watch"
     },
     "dependencies": {
-        "@vermaysha/discord-webhook": "1.4.0"
+        "@actions/core": "3.0.1",
+        "@vermaysha/discord-webhook": "1.4.0",
+        "tslib": "2.6.2"
     },
     "devDependencies": {
         "@geysermc/actions-release": "1.0.0"

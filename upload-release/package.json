@@ -16,7 +16,9 @@
         "package:watch": "npm run package -- --watch"
     },
     "dependencies": {
-        "node-scp": "0.0.25"
+        "@actions/core": "3.0.1",
+        "node-scp": "0.0.25",
+        "tslib": "2.6.2"
     },
     "devDependencies": {
         "@geysermc/actions-release": "1.0.0"

@@ -272,8 +272,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@geysermc/actions-notify-discord@workspace:notify-discord"
   dependencies:
+    "@actions/core": "npm:3.0.1"
     "@geysermc/actions-release": "npm:1.0.0"
     "@vermaysha/discord-webhook": "npm:1.4.0"
+    tslib: "npm:2.6.2"
   languageName: unknown
   linkType: soft
 
@@ -281,9 +283,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@geysermc/actions-previous-release@workspace:previous-release"
   dependencies:
+    "@actions/core": "npm:3.0.1"
     "@octokit/auth-app": "npm:8.2.0"
     "@octokit/core": "npm:7.0.6"
     "@octokit/plugin-rest-endpoint-methods": "npm:17.0.0"
+    tslib: "npm:2.6.2"
   languageName: unknown
   linkType: soft
 
@@ -291,6 +295,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@geysermc/actions-release@workspace:release"
   dependencies:
+    "@actions/core": "npm:3.0.1"
     "@octokit/auth-app": "npm:8.2.0"
     "@octokit/core": "npm:7.0.6"
     "@octokit/plugin-rest-endpoint-methods": "npm:17.0.0"
@@ -299,6 +304,7 @@ __metadata:
     glob: "npm:13.0.6"
     js-yaml: "npm:5.2.0"
     markdown-escape: "npm:2.0.0"
+    tslib: "npm:2.6.2"
   languageName: unknown
   linkType: soft
 
@@ -307,7 +313,9 @@ __metadata:
   resolution: "@geysermc/actions-upload-multi-artifact@workspace:upload-multi-artifact"
   dependencies:
     "@actions/artifact": "npm:6.2.1"
+    "@actions/core": "npm:3.0.1"
     glob: "npm:13.0.6"
+    tslib: "npm:2.6.2"
   languageName: unknown
   linkType: soft
 
@@ -315,8 +323,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@geysermc/actions-upload-release@workspace:upload-release"
   dependencies:
+    "@actions/core": "npm:3.0.1"
     "@geysermc/actions-release": "npm:1.0.0"
     node-scp: "npm:0.0.25"
+    tslib: "npm:2.6.2"
   languageName: unknown
   linkType: soft
 
@@ -1372,10 +1382,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "geysermc-actions@workspace:."
   dependencies:
-    "@actions/core": "npm:3.0.1"
     "@types/node": "npm:26.0.1"
     "@vercel/ncc": "npm:0.44.0"
-    tslib: "npm:2.6.2"
     typescript: "npm:6.0.3"
   languageName: unknown
   linkType: soft
