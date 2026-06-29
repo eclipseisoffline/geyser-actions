@@ -1,3 +1,4 @@
+const import_meta_url = require('url').pathToFileURL(__filename).href;
 "use strict";
 var __create = Object.create;
 var __defProp = Object.defineProperty;
@@ -71390,14 +71391,13 @@ var import_node_stream4 = __toESM(require("node:stream"), 1);
 var import_node_module = require("node:module");
 var import_node_path2 = require("node:path");
 var import_node_url3 = require("node:url");
-var import_meta = {};
 var __isNode__ = typeof process === "object" && typeof process.versions === "object" && typeof process.versions.node === "string";
 var require2;
 var __filename;
 var __dirname;
 if (__isNode__) {
-  require2 = (0, import_node_module.createRequire)(import_meta.url);
-  __filename = (0, import_node_url3.fileURLToPath)(import_meta.url);
+  require2 = (0, import_node_module.createRequire)(import_meta_url);
+  __filename = (0, import_node_url3.fileURLToPath)(import_meta_url);
   __dirname = (0, import_node_path2.dirname)(__filename);
 }
 var NativeCRC64 = (() => {
