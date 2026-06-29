@@ -40,6 +40,7 @@ runs:
               submodules: '${{ inputs.checkout_submodules }}'
               fetch-depth: '${{ inputs.checkout_fetch-depth }}'
               persist-credentials: false
+              allow-unsafe-pr-checkout: true
         - name: Setup Java
           uses: actions/setup-java@1bcf9fb12cf4aa7d266a90ae39939e61372fe520 # v5.4.0
           with:
