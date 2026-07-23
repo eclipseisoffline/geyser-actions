@@ -15,6 +15,14 @@ inputs:
         description: Discord webhook to post the release to.
         required: false
         default: none
+    discordWebhookIncludeAssets:
+        description: Whether to include links to the release assets in the post to the Discord webhook. Defaults to true if not specified.
+        required: false
+        default: 'true'
+    discordWebhookIncludeThumbnail:
+        description: Whether to include a summary thumbnail image in the post to the Discord webhook. Defaults to true if not specified.
+        required: false
+        default: 'true'
     discussionCategory:
         description: The category to use for the discussion. Defaults to "none" if not specified.
         required: false
@@ -52,7 +60,7 @@ inputs:
         required: false
         default: auto
     releaseBodyPrefix:
-        description: A short prefix added before the release body.
+        description: A short prefix added before the release body. Defaults to an empty string if not specified.
         required: false
         default: ''
     releaseChangeLimit:
@@ -92,7 +100,7 @@ inputs:
         required: false
         default: ${prefix}${separator}${base}
     tagAdditional:
-        description: Comma-seperated or newline-separated list of additional tags to push along with the primary release tag
+        description: Comma-seperated or newline-separated list of additional tags to push along with the primary release tag. Defaults to an empty list if not specified.
         required: false
     tagBase:
         description: The tag base to use for the release. Auto increment from the last tag will be used if not specified.

@@ -41,6 +41,8 @@ export namespace Inputs {
         readonly make_latest: "true" | "false" | "legacy" | undefined;
         readonly info: boolean;
         readonly hook: string | undefined;
+        readonly hookIncludeAssets: boolean;
+        readonly hookIncludeThumbnail: boolean;
         readonly metadata: boolean;
         readonly metadata_name: string;
         readonly update_release_data: boolean;

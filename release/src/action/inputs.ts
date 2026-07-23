@@ -101,7 +101,9 @@ async function getRelease(inp: {api: OctokitApi, changes: Inputs.Change[], tag: 
     const discussion_category_name = await getDiscussionCategory({api, owner, repo});
     const make_latest = getMakeLatest({prerelease, success});
     const info = core.getBooleanInput('includeReleaseInfo');
-    const hook = core.getInput('discordWebhook') == 'none' ? undefined : core.getInput('discordWebhook');
+    const hook = core.getInput('discordWebhook') === 'none' ? undefined : core.getInput('discordWebhook');
+    const hookIncludeAssets = core.getInput('discordWebhookIncludeAssets') === 'true';
+    const hookIncludeThumbnail = core.getInput('discordWebhookIncludeThumbnail') === 'true';
     const enabled = core.getBooleanInput('releaseEnabled');
     const metadata = core.getBooleanInput('saveMetadata');
     const metadata_name = core.getInput("metadataName");
@@ -110,7 +112,7 @@ async function getRelease(inp: {api: OctokitApi, changes: Inputs.Change[], tag: 
     const version = core.getInput('releaseVersion') === 'auto' ? tag.base : core.getInput('releaseVersion');
 
     console.log(`Using release name ${name} with prerelease: ${prerelease}, draft: ${draft}, generate release notes: ${generate_release_notes}, discussion category: ${discussion_category_name}, make latest: ${make_latest}, include release info: ${info}`);
-    return { name, body, prerelease, draft, generate_release_notes, discussion_category_name, make_latest, info, hook, enabled, metadata, metadata_name, update_release_data, project, version };
+    return { name, body, prerelease, draft, generate_release_notes, discussion_category_name, make_latest, info, hook, hookIncludeAssets, hookIncludeThumbnail, enabled, metadata, metadata_name, update_release_data, project, version };
 }
 
 async function getSuccess(inp: {api: OctokitApi, repoData: Repo}): Promise<boolean> {
