@@ -167,7 +167,7 @@ async function getTag(inp: {repoData: Repo, prevRelease: PreviousRelease}): Prom
 }
 
 function getAdditionalTags(): string[] {
-    const additionalTags = core.getInput('additionalTags');
+    const additionalTags = core.getInput('tagAdditional');
 
     if (additionalTags === '') {
         return [];
@@ -230,7 +230,12 @@ async function getChanges(inp: {api: OctokitApi, prevRelease: PreviousRelease, r
 async function getReleaseBody(inp: {repoData: Repo, changes: Inputs.Change[], success: boolean}): Promise<string> {
     const { repoData, changes, success } = inp;
 
-    const bodyPath = core.getInput('releaseBodyPath');
+    let bodyPrefix = core.getInput('releaseBodyPrefix');
+    const bodyPath = core.getInput('releaseBodyPath'); // FIXME is this right?
+
+    if (bodyPrefix) {
+        bodyPrefix = `${bodyPrefix}${os.EOL}`;
+    }
 
     if (!fs.existsSync(bodyPath)) {
         // Generate release body ourselves
@@ -275,10 +280,10 @@ async function getReleaseBody(inp: {repoData: Repo, changes: Inputs.Change[], su
             changelog += `... and ${truncatedChanges} more${os.EOL}`;
         }
 
-        return changelog;
+        return `${bodyPrefix}${changelog}`;
     }
 
-    return fs.readFileSync(bodyPath, { encoding: 'utf-8' });
+    return `${bodyPrefix}${fs.readFileSync(bodyPath, { encoding: 'utf-8' })}`;
 }
 
 async function getPreRelease(inp: {repoData: Repo}): Promise<boolean> {

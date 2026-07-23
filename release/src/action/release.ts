@@ -31,12 +31,11 @@ export async function writeRelease(inp: {inputs: Inputs, api: OctokitApi, repoDa
     });
 
     if (inputs.additionalTags) {
-        for (const additionalTag in inputs.additionalTags) {
-            console.log(`creating additional tag ref ${additionalTag}`)
+        for (const i in inputs.additionalTags) {
             await api.rest.git.createRef({
                 owner,
                 repo,
-                ref: `refs/tags/${additionalTag}`,
+                ref: `refs/tags/${inputs.additionalTags[i]}`,
                 sha: repoData.lastCommit
             });
         }
