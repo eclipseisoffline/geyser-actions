@@ -32,7 +32,9 @@ async function run(): Promise<void> {
 		// Allow legacy users to provide the data directly, but prefer live data if app credentials are provided
 		let data: PrevReleaseData = {};
 		if (core.getInput("appID") && core.getInput("appPrivateKey")) {
-			data = await getLivePrevReleaseData();
+            try {
+                data = await getLivePrevReleaseData();
+            } catch (ignored) {} // RequestError - data doesn't exist
 		} else {
 			data = JSON.parse(core.getInput('data') || '{}');
 		}
