@@ -41,9 +41,9 @@ export async function writeRelease(inp: {inputs: Inputs, api: OctokitApi, repoDa
             }
 
             if (exists) {
-                await api.rest.git.updateRef({ owner, repo, ref: `refs/${ref}`, sha: repoData.lastCommit });
+                await api.rest.git.updateRef({ owner, repo, ref, sha: repoData.lastCommit });
             } else {
-                await api.rest.git.createRef({ owner, repo, ref, sha: repoData.lastCommit });
+                await api.rest.git.createRef({ owner, repo, ref: `refs/${ref}`, sha: repoData.lastCommit });
             }
         }
     }
