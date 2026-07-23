@@ -32,12 +32,19 @@ export async function writeRelease(inp: {inputs: Inputs, api: OctokitApi, repoDa
 
     if (inputs.additionalTags) {
         for (const i in inputs.additionalTags) {
-            await api.rest.git.createRef({
-                owner,
-                repo,
-                ref: `refs/tags/${inputs.additionalTags[i]}`,
-                sha: repoData.lastCommit
-            });
+            let exists = true;
+            try {
+                await api.rest.git.getRef({ owner, repo, ref: `tags/${inputs.additionalTags[i]}` });
+            } catch (error) {
+                exists = false;
+            }
+
+            const ref = `refs/tags/${inputs.additionalTags[i]}`;
+            if (exists) {
+                await api.rest.git.updateRef({ owner, repo, ref, sha: repoData.lastCommit });
+            } else {
+                await api.rest.git.createRef({ owner, repo, ref, sha: repoData.lastCommit });
+            }
         }
     }
 
