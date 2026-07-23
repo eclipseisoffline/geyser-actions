@@ -6,6 +6,8 @@ type PrevReleaseData = {
 	[branch: string]: {
 		c: string;
 		t: string;
+        // Backwards compat
+        full_tag?: string;
 	}
 }
 
@@ -37,15 +39,17 @@ async function run(): Promise<void> {
 
         if (!data[branch]) {
             core.setOutput('previousRelease', '0');
+            core.setOutput('previousTag', '');
             core.setOutput('previousCommit', '');
             core.setOutput('curentRelease', '1');
             return;
         }
 
-        const { c: commit, t: tag } = data[branch];
+        const { c: commit, t: tag, full_tag } = data[branch];
 
         core.setOutput('previousCommit', commit);
         core.setOutput('previousRelease', tag);
+        core.setOutput('previousTag', full_tag ? full_tag : '');
 
         const tagNum = parseInt(tag);
         if (!isNaN(tagNum)) {
