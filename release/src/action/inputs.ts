@@ -17,11 +17,12 @@ export async function getInputs(inp: {api: OctokitApi, repoData: Repo}): Promise
     const files = getFiles();
     const changes = await getChanges({api, prevRelease, repoData});
     const tag = await getTag({repoData, prevRelease});
+    const additionalTags = getAdditionalTags();
     const success = await getSuccess({api, repoData});
     const release = await getRelease({api, changes, tag, repoData, success});
 
-    console.log(`Using ${files.length} files, ${changes.length} changes, tag ${tag.base}, release ${release.name}`);
-    return { files, changes, tag, release, success };
+    console.log(`Using ${files.length} files, ${changes.length} changes, tag ${tag.override ? tag.override : tag.base}, release ${release.name}`);
+    return { files, changes, tag, additionalTags, release, success };
 }
 
 async function getPrevRelease(inp: {api: OctokitApi, repoData: Repo}): Promise<PreviousRelease> {
@@ -138,6 +139,12 @@ async function getSuccess(inp: {api: OctokitApi, repoData: Repo}): Promise<boole
     return success;
 }
 async function getTag(inp: {repoData: Repo, prevRelease: PreviousRelease}): Promise<Inputs.Tag> {
+    const override = core.getInput('tag');
+    if (override) {
+        console.log(`Using release tag ${override}`);
+        return { base: '', prefix: '', separator: '', increment: false, override };
+    }
+
     const { repoData, prevRelease } = inp;
 
     const { branch } = repoData;
@@ -165,6 +172,16 @@ async function getTag(inp: {repoData: Repo, prevRelease: PreviousRelease}): Prom
 
     console.log(`Using release tag ${prefix}${separator}${base} with increment: ${increment}`);
     return { base, prefix, separator, increment };
+}
+
+function getAdditionalTags(): string[] {
+    const additionalTags = core.getInput('additionalTags');
+
+    if (additionalTags === '') {
+        return [];
+    }
+
+    return parse.parseMultiInput(additionalTags);
 }
 
 async function getChanges(inp: {api: OctokitApi, prevRelease: PreviousRelease, repoData: Repo}): Promise<Inputs.Change[]> {

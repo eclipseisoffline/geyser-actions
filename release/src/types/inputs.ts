@@ -2,6 +2,7 @@ export interface Inputs {
     readonly files: Inputs.File[];
     readonly changes: Inputs.Change[];
     readonly tag: Inputs.Tag;
+    readonly additionalTags: string[];
     readonly release: Inputs.Release;
     readonly success: boolean;
 }
@@ -12,6 +13,7 @@ export namespace Inputs {
         readonly prefix: string;
         readonly increment: boolean;
         readonly separator: string;
+        readonly override?: string;
     }
 
     export interface File {

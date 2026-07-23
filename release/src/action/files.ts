@@ -93,8 +93,8 @@ async function uploadReleaseData(inp: {api: OctokitApi, inputs: Inputs, release:
         repo,
         branch,
         id: release.data.id.toString(),
-        build: parse.isPosInteger(inputs.tag.base) ? parseInt(inputs.tag.base) : inputs.tag.base,
-        tag: inputs.tag.prefix + inputs.tag.separator + inputs.tag.base,
+        build: inputs.tag.override ? 0 : parse.isPosInteger(inputs.tag.base) ? parseInt(inputs.tag.base) : inputs.tag.base,
+        tag: inputs.tag.override ? inputs.tag.override : inputs.tag.prefix + inputs.tag.separator + inputs.tag.base,
         timestamp: Date.now().toString(),
         prerelease: inputs.release.prerelease,
         changes: inputs.changes,
@@ -144,7 +144,7 @@ async function saveOfflineMetadata(inp: {inputs: Inputs, repoData: Repo}) {
         project: inputs.release.project,
         repo: repoData.repo,
         version: inputs.release.version,
-        number: parse.isPosInteger(inputs.tag.base) ? parseInt(inputs.tag.base) : inputs.tag.base,
+        number: inputs.tag.override ? 0 : parse.isPosInteger(inputs.tag.base) ? parseInt(inputs.tag.base) : inputs.tag.base,
         changes: inputs.changes.map(c => ({ commit: c.commit, summary: c.summary, message: c.message })),
         downloads
     };

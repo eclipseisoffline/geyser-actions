@@ -15,7 +15,7 @@ export async function setOutputs(inp: {release: ReleaseResponse | null, inputs: 
 
     core.setOutput('body', inputs.release.body);
 
-    const tag = inputs.tag.prefix + inputs.tag.separator + inputs.tag.base;
+    const tag = inputs.tag.override ? inputs.tag.override : inputs.tag.prefix + inputs.tag.separator + inputs.tag.base;
 
     core.setOutput('tag', tag);
     core.setOutput('tagPrefix', inputs.tag.prefix);

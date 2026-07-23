@@ -2,6 +2,9 @@ name: release
 description: An action to create incremented releases in a similar style to Jenkins.
 
 inputs:
+    additionalTags:
+        description: Comma-seperated or newline-separated list of additional tags to push along with the primary release tag
+        required: false
     appID:
         description: ID of the GitHub App to manage the release system.
         required: true
@@ -83,7 +86,10 @@ inputs:
         description: The name of the offline release metadata file. Defaults to metadata.json if not specified.
         required: false
         default: metadata.json
-    tagBase: 
+    tag:
+        description: The name of the tag. Defaults to automatically computing the name of the tag using the properties below.
+        required: false
+    tagBase:
         description: The tag base to use for the release. Auto increment from the last tag will be used if not specified.
         required: false
         default: auto
