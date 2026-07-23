@@ -89,6 +89,7 @@ inputs:
     tag:
         description: The name of the tag. Defaults to automatically computing the name of the tag using the properties below.
         required: false
+        default: ${prefix}${separator}${base}
     tagBase:
         description: The tag base to use for the release. Auto increment from the last tag will be used if not specified.
         required: false

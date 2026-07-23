@@ -12,7 +12,7 @@ export async function writeRelease(inp: {inputs: Inputs, api: OctokitApi, repoDa
 
     const { owner, repo, branch } = repoData;
 
-    const tag_name = inputs.tag.override ? inputs.tag.override : inputs.tag.prefix + inputs.tag.separator + inputs.tag.base;
+    const tag_name = inputs.tag.formatted;
     const target_commitish = branch;
     const { name, body, draft, prerelease, discussion_category_name, generate_release_notes, make_latest } = inputs.release;
 
@@ -32,6 +32,7 @@ export async function writeRelease(inp: {inputs: Inputs, api: OctokitApi, repoDa
 
     if (inputs.additionalTags) {
         for (const additionalTag in inputs.additionalTags) {
+            console.log(`creating additional tag ref ${additionalTag}`)
             await api.rest.git.createRef({
                 owner,
                 repo,

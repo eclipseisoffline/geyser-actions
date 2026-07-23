@@ -13,7 +13,7 @@ export namespace Inputs {
         readonly prefix: string;
         readonly increment: boolean;
         readonly separator: string;
-        readonly override?: string;
+        readonly formatted: string;
     }
 
     export interface File {

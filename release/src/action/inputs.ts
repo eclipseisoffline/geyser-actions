@@ -2,6 +2,7 @@ import * as core from '@actions/core'
 import fs from 'fs';
 import { Inputs, PreviousRelease } from '../types/inputs';
 import * as parse from '../util/parse';
+import * as strings from '../util/strings';
 import { Repo } from '../types/repo';
 import os from 'os';
 import path from 'path';
@@ -21,7 +22,7 @@ export async function getInputs(inp: {api: OctokitApi, repoData: Repo}): Promise
     const success = await getSuccess({api, repoData});
     const release = await getRelease({api, changes, tag, repoData, success});
 
-    console.log(`Using ${files.length} files, ${changes.length} changes, tag ${tag.override ? tag.override : tag.base}, release ${release.name}`);
+    console.log(`Using ${files.length} files, ${changes.length} changes, tag ${tag.formatted}, release ${release.name}`);
     return { files, changes, tag, additionalTags, release, success };
 }
 
@@ -138,40 +139,31 @@ async function getSuccess(inp: {api: OctokitApi, repoData: Repo}): Promise<boole
 
     return success;
 }
-async function getTag(inp: {repoData: Repo, prevRelease: PreviousRelease}): Promise<Inputs.Tag> {
-    const override = core.getInput('tag');
-    if (override) {
-        console.log(`Using release tag ${override}`);
-        return { base: '', prefix: '', separator: '', increment: false, override };
-    }
 
+async function getTag(inp: {repoData: Repo, prevRelease: PreviousRelease}): Promise<Inputs.Tag> {
     const { repoData, prevRelease } = inp;
 
     const { branch } = repoData;
 
-    const base = core.getInput('tagBase');
+    const baseInput = core.getInput('tagBase');
     const separator = core.getInput('tagSeparator');
     const prefix = core.getInput('tagPrefix') == 'auto' ? branch : core.getInput('tagPrefix');
     const increment = core.getBooleanInput('tagIncrement');
+    const template = core.getInput('tag');
 
-    if (base === 'auto') {
+    let base = '1';
+    if (baseInput === 'auto') {
         if (prevRelease.baseTag != null && parse.isPosInteger(prevRelease.baseTag)) {
-            const buildNumber = parseInt(prevRelease.baseTag) + (increment ? 1 : 0);
-            return { base: buildNumber.toString(), prefix, separator, increment };
+            base = (parseInt(prevRelease.baseTag) + (increment ? 1 : 0)).toString();
         }
-
-        if (prevRelease.baseTag == null) {
-            return { base: '1', prefix, separator, increment };
-        }
+    } else if (parse.isPosInteger(baseInput) && increment) {
+        base = (parseInt(baseInput) + 1).toString();
     }
 
-    if (parse.isPosInteger(base) && increment) {
-        const buildNumber = parseInt(base) + 1;
-        return { base: buildNumber.toString(), prefix, separator, increment };
-    }
+    const formatted = strings.formatString(template, { base: base, prefix, separator });
 
-    console.log(`Using release tag ${prefix}${separator}${base} with increment: ${increment}`);
-    return { base, prefix, separator, increment };
+    console.log(`Using release tag ${formatted} with increment: ${increment}`);
+    return { base, prefix, separator, increment, formatted };
 }
 
 function getAdditionalTags(): string[] {
