@@ -36,7 +36,7 @@ export async function writeRelease(inp: {inputs: Inputs, api: OctokitApi, repoDa
                 owner,
                 repo,
                 ref: `refs/tags/${additionalTag}`,
-                sha: target_commitish
+                sha: repoData.lastCommit
             });
         }
     }
