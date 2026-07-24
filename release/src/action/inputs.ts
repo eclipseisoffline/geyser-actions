@@ -233,7 +233,7 @@ async function getReleaseBody(inp: {repoData: Repo, changes: Inputs.Change[], su
     const { repoData, changes, success } = inp;
 
     let bodyPrefix = core.getInput('releaseBodyPrefix');
-    const bodyPath = core.getInput('releaseBodyPath'); // FIXME is this right?
+    const bodyPath = core.getInput('releaseBody');
 
     if (bodyPrefix) {
         bodyPrefix = `${bodyPrefix}${os.EOL}`;

@@ -68,8 +68,8 @@ export async function sendWebhook(inp: {inputs: Inputs, api: OctokitApi, repoDat
 
     try {
         new Webhook(inputs.release.hook)
-            .setUsername('GitHub Release Action')
-            .setAvatarUrl('https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png')
+            .setUsername('GitHub Actions')
+            .setAvatarUrl('https://media.discordapp.net/attachments/472838100951760928/1244710120424738976/github-actions-logo.png')
             .addEmbed(embed)
             .send();
     } catch (error) {
